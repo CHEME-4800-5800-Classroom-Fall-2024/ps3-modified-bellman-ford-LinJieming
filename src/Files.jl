@@ -1,3 +1,4 @@
+#Files.jl
 """
     function readnodesfile(filepath::String; comment::Char='#', delim::Char=',') -> Dict{Int64, MyGraphNodeModel}
 
@@ -66,8 +67,30 @@ function readnodecapacityfile(filepath::String; comment::Char='#',
     capacities = Dict{Int64,Tuple{Int64,Int64}}()
     
     # TODO: implement this function
-    
-    readnodecapacityfile 
+    # main 
+    open(filepath, "r") do file
+        for line ∈ eachline(file)
+            
+            # To read files, skipping comments and empty lines
+            if (contains(line, comment) == true) || (isempty(line) == true)
+                continue
+            end
+            
+            # split the line around the delimiter
+            parts = split(line, delim) .|> String
+            
+            # check if we have the right number of components (node_id, in_degree, out_degree)
+            if length(parts) == 3
+                # extract values and convert to appropriate types
+                node_id = parse(Int64, parts[1])
+                in_degree = parse(Int64, parts[2])
+                out_degree = parse(Int64, parts[3])
+                
+                # store in our dictionary
+                capacities[node_id] = (in_degree, out_degree)
+            end
+        end
+    end
 
     # return -
     return capacities;
