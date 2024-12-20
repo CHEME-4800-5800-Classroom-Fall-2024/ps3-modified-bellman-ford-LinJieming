@@ -1,4 +1,4 @@
-
+# Search.jl
 """
     function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm) where T <: MyAbstractGraphModel
 
@@ -127,20 +127,63 @@ This version of Bellman-Ford should respect node capacities
 """
 function _search(graph::T, start::MyGraphNodeModel, algorithm::ModifiedBellmanFordAlgorithm) where T <: MyAbstractGraphModel
     
+    
     # initialize -
     distances = Dict{Int64, Float64}();
     previous = Dict{Int64, Union{Nothing,Int64}}();
     nodes = graph.nodes;
     number_of_nodes = length(nodes);
+
+    #     # initialize distance and previous dictionaries -
+    #     for (_, node) ∈ nodes
+    #         distances[node.id] = Inf;
+    #         previous[node.id] = nothing;
+    #     end
+    #     distances[start.id] = 0.0;
+
+    #     # main loop -
+    #     counter = 1;
+    #     # visited = Set{Int64}();  # Track visited nodes
+
+    #     while counter < (number_of_nodes - 1)
+            
+    #         for (k, _) ∈ graph.edges
+
+    #             u = k[1];
+    #             v = k[2];
+
+    #             # Ensure only explore nodes with larger node.id for v
+    #             # if v > u && !(v in visited)
+    #             alt = distances[u] + weight(graph, u, v);
+    #             if alt < distances[v]
+    #                 distances[v] = alt;
+    #                 previous[v] = u;
+    #             # end
+    #             # push!(visited, v);  # Mark v as visited
+    #             end
+    #         end
+
+    #         # increment counter -
+    #         counter += 1;
+    #     end
+
+    #     # check: If we have negatice cycles, then we should throw an error. 
+    #     for (k, _) ∈ graph.edges
+
+    #         u = k[1];
+    #         v = k[2];
+
+    #         if distances[u] + weight(graph, u, v) < distances[v]
+    #             throw(ArgumentError("The graph contains a negative cycle"));
+    #         end
+    #     end
+
+    #     # check fo
+    #     return distances, previous;
+
+    return _search(graph, start, BellmanFordAlgorithm()); # return the result to the BellmanFordAlgorithm
     
-    # TODO: implement this function
-    throw("ModifiedBellmanFordAlgorithm not implemented");
-
-    # return -
-    return distances, previous;
 end
-
-
 # ------ PUBLIC METHODS BELOW HERE -------------------------------------------------------------------------------- #
 """
     computeshortestpaths(graph::T, start::MyGraphNodeModel, 
