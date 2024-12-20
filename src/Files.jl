@@ -71,8 +71,10 @@ function readnodecapacityfile(filepath::String; comment::Char='#',
     open(filepath, "r") do file
         for line ∈ eachline(file)
             
-            # To read files, skipping comments and empty lines
-            if (contains(line, comment) == true) || (isempty(line) == true)
+
+            # read files, skip comments and empty lines, Using strip() to handle whitespace better
+            line = strip(line)
+            if (contains(line, comment) || isempty(line))
                 continue
             end
             
@@ -86,7 +88,7 @@ function readnodecapacityfile(filepath::String; comment::Char='#',
                 in_degree = parse(Int64, parts[2])
                 out_degree = parse(Int64, parts[3])
                 
-                # store in our dictionary
+                # store the data  in our dictionary
                 capacities[node_id] = (in_degree, out_degree)
             end
         end
